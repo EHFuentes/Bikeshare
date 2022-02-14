@@ -1,5 +1,6 @@
 from curses import raw
 import datetime as dt
+from distutils.dir_util import copy_tree
 import time
 import pandas as pd
 import numpy as np
@@ -19,18 +20,16 @@ city_data = { 'chicago': chicago,
               'new york city': newyorkcity,
               'washington': washington}
 
-
-"""
-    Asks user to specify a city, month, and day to analyze. 
-    Returns:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-"""
-
 # Get user input to select a city (chicago, new york city, washington)
 try:
     def get_filters():
+        """
+        Asks user to specify a city, month, and day to analyze. 
+        Returns:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+        """
         cities = ('chicago', 'new york city','washington') 
         months = ('january','february', 'march','april','may','june','all')
         days = ('monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday','all')
@@ -70,7 +69,7 @@ try:
         return city, month, day
 except:
     print('invalid input, please restart code')
-       
+    
 
 def load_data(city, month, day):
     """
@@ -114,6 +113,7 @@ def time_stats(df):
     start_time = time.time()
 
 # Display the most common month
+    #if df['month'] != 'all':
     df['month'].to_string() != 'month'
     popular_month = df['month'].mode()[0]
     print('Most popular month:\n{}'.format(popular_month))
@@ -150,7 +150,6 @@ def station_stats(df):
     print('-'*40)
 
 
-
 def trip_duration_stats(df):
     """Displays statistics on the total and average trip duration."""
     print('\nCalculating Trip Duration...\n')
@@ -172,7 +171,7 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-# Display counts of user types
+# Display counts of user types 
     user_types = df['User Type'].value_counts()
     print('\nUser Type:\n{}'.format(user_types))
     
@@ -192,6 +191,7 @@ def user_stats(df):
         print('\nRecent year:\n{}'.format(recent_birth))
         print("\nThis took %s seconds." % (round(time.time() - start_time)))
         print('-'*40)
+
 
 # Set up iteration and ask user if they would like to see raw data
 def raw_data(df):
@@ -213,6 +213,8 @@ def raw_data(df):
         else:
             print('{} is invalid please try again.'.format(rawdata))
 
+
+# Main function        
 def main():
     while True:
         city, month, day = get_filters()
