@@ -7,7 +7,7 @@ Bike Share Data
 ## Description
 Interactive program that lets you select a city (NYC, Chicago, And Washington) to run bike share statistics. 
 
-## Popular times of travel (i.e., occurs most often in the start time)  
+## Popular times of travel  
 Most common month  
 Most common day of week  
 Most common hour of day  
