@@ -1,5 +1,6 @@
 from curses import raw
 import datetime as dt
+from distutils.dir_util import copy_tree
 import time
 import pandas as pd
 import numpy as np
@@ -20,51 +21,54 @@ city_data = { 'chicago': chicago,
               'washington': washington}
 
 # Get user input to select a city (chicago, new york city, washington)
-def get_filters():
-    """
-    Asks user to specify a city, month, and day to analyze. 
-    Returns:
+try:
+    def get_filters():
+        """
+        Asks user to specify a city, month, and day to analyze. 
+        Returns:
         (str) city - name of the city to analyze
         (str) month - name of the month to filter by, or "all" to apply no month filter
         (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    """
-    cities = ('chicago', 'new york city','washington') 
-    months = ('january','february', 'march','april','may','june','all')
-    days = ('monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday','all')
-    while True: 
-        city = input('\nPlease select a city from Chicago, New York City or Washington: \n' ).lower()
-        if city in cities:
-            break
-        elif city == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(city))
-            continue          
+        """
+        cities = ('chicago', 'new york city','washington') 
+        months = ('january','february', 'march','april','may','june','all')
+        days = ('monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday','all')
+        while True: 
+            city = input('\nPlease select a city from Chicago, New York City or Washington: \n' ).lower()
+            if city in cities:
+                break
+            elif city == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(city))
+                continue          
 
 # Get user input for month (all, january, february, ... , june)
-    while True:
-        month = input('\nSelect a month from Jan - June. ex. January, February,.. or all: \n').lower()
-        if month in months:
-            break
-        elif month == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(month))
-            continue  
+        while True:
+            month = input('\nSelect a month from Jan - June. ex. January, February,.. or all: \n').lower()
+            if month in months:
+                break
+            elif month == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(month))
+                continue  
 
 # Get user input for day of week (all, monday, tuesday, ... sunday)
-    while True:
-        day = input('\nWhich day of the week? ex. all, Monday, Tuesday, etc : \n').lower()
-        if day in days:
-            break
-        elif day == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(day))
-            continue    
+        while True:
+            day = input('\nWhich day of the week? ex. all, Monday, Tuesday, etc : \n').lower()
+            if day in days:
+                break
+            elif day == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(day))
+                continue    
 
-    print('-'*40)
-    return city, month, day
+        print('-'*40)
+        return city, month, day
+except:
+    print('invalid input, please restart code')
     
 
 def load_data(city, month, day):
@@ -109,6 +113,7 @@ def time_stats(df):
     start_time = time.time()
 
 # Display the most common month
+    #if df['month'] != 'all':
     df['month'].to_string() != 'month'
     popular_month = df['month'].mode()[0]
     print('Most popular month:\n{}'.format(popular_month))
@@ -121,7 +126,7 @@ def time_stats(df):
 # Display the most common start hour
     popular_hour = df['hour'].mode()[0] 
     print('\nMost common start hour:\n{}'.format(popular_hour))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
 
 
@@ -141,9 +146,8 @@ def station_stats(df):
 # Display most frequent combination of start station and end station trip
     com_station = (df['Start Station'] + ',' + df['End Station']).mode()[0]
     print('\nMost frequest combination:\n{}'.format(com_station))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
-
 
 
 def trip_duration_stats(df):
@@ -158,7 +162,7 @@ def trip_duration_stats(df):
 # Display mean travel time
     mean_travel = pd.to_timedelta(df['Trip Duration'].mean(),unit= 's')
     print('\nTotal average time:\n{}'.format(mean_travel))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
 
 
@@ -167,7 +171,7 @@ def user_stats(df):
     print('\nCalculating User Stats...\n')
     start_time = time.time()
 
-# Display counts of user types
+# Display counts of user types 
     user_types = df['User Type'].value_counts()
     print('\nUser Type:\n{}'.format(user_types))
     
@@ -185,25 +189,32 @@ def user_stats(df):
         print('\nCommon birth year:\n{}'.format(common_birth))
         print('\nEarliest year:\n{}'.format(earlier_birth))
         print('\nRecent year:\n{}'.format(recent_birth))
-        print("\nThis took %s seconds." % (time.time() - start_time))
+        print("\nThis took %s seconds." % (round(time.time() - start_time)))
         print('-'*40)
+
 
 # Set up iteration and ask user if they would like to see raw data
 def raw_data(df):
     """
-ask user if they would like to see raw data from csv files
+    ask user if they would like to see raw data from csv files
     """
     i = 0
-    rawdata = input("Do you want to see the first five rows of raw data?: ").lower()
-
-    if rawdata == 'yes':
-        while i <= df.shape[0] - 1:
-            print(df.iloc[i:,:])
+    while i <= df.shape[0] - 1:
+        rawdata = input("Do you want to see five rows of raw data?:\n").lower()
+        if rawdata == 'yes':
+            pd.set_option('display.max_columns',200)
+            print(df.iloc[i:,:].head())
             i+= 5
-            user_input = input("Do you wish to continue?: ").lower()
+            user_input = input("Do you wish to continue?:\n").lower()
             if user_input == 'no':
                 break
+        elif rawdata == 'no':
+            break
+        else:
+            print('{} is invalid please try again.'.format(rawdata))
 
+
+# Main function        
 def main():
     while True:
         city, month, day = get_filters()
