@@ -130,7 +130,7 @@ def time_stats(df):
 # Display the most common start hour
     popular_hour = df['hour'].mode()[0] 
     print('\nMost common start hour:\n{}'.format(popular_hour))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
 
 
@@ -150,7 +150,7 @@ def station_stats(df):
 # Display most frequent combination of start station and end station trip
     com_station = (df['Start Station'] + ',' + df['End Station']).mode()[0]
     print('\nMost frequest combination:\n{}'.format(com_station))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
 
 
@@ -167,7 +167,7 @@ def trip_duration_stats(df):
 # Display mean travel time
     mean_travel = pd.to_timedelta(df['Trip Duration'].mean(),unit= 's')
     print('\nTotal average time:\n{}'.format(mean_travel))
-    print("\nThis took %s seconds." % (time.time() - start_time))
+    print("\nThis took %s seconds." % (round(time.time() - start_time)))
     print('-'*40)
 
 
@@ -194,7 +194,7 @@ def user_stats(df):
         print('\nCommon birth year:\n{}'.format(common_birth))
         print('\nEarliest year:\n{}'.format(earlier_birth))
         print('\nRecent year:\n{}'.format(recent_birth))
-        print("\nThis took %s seconds." % (time.time() - start_time))
+        print("\nThis took %s seconds." % (round(time.time() - start_time)))
         print('-'*40)
 
 # Set up iteration and ask user if they would like to see raw data
