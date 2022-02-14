@@ -113,7 +113,6 @@ def time_stats(df):
     start_time = time.time()
 
 # Display the most common month
-    #if df['month'] != 'all':
     df['month'].to_string() != 'month'
     popular_month = df['month'].mode()[0]
     print('Most popular month:\n{}'.format(popular_month))
