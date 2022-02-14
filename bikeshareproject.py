@@ -29,52 +29,48 @@ city_data = { 'chicago': chicago,
 """
 
 # Get user input to select a city (chicago, new york city, washington)
-def get_filters():
-    """
-    Asks user to specify a city, month, and day to analyze. 
-    Returns:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    """
-    cities = ('chicago', 'new york city','washington') 
-    months = ('january','february', 'march','april','may','june','all')
-    days = ('monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday','all')
-    while True: 
-        city = input('\nPlease select a city from Chicago, New York City or Washington: \n' ).lower()
-        if city in cities:
-            break
-        elif city == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(city))
-            continue          
+try:
+    def get_filters():
+        cities = ('chicago', 'new york city','washington') 
+        months = ('january','february', 'march','april','may','june','all')
+        days = ('monday','tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday','all')
+        while True: 
+            city = input('\nPlease select a city from Chicago, New York City or Washington: \n' ).lower()
+            if city in cities:
+                break
+            elif city == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(city))
+                continue          
 
 # Get user input for month (all, january, february, ... , june)
-    while True:
-        month = input('\nSelect a month from Jan - June. ex. January, February,.. or all: \n').lower()
-        if month in months:
-            break
-        elif month == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(month))
-            continue  
+        while True:
+            month = input('\nSelect a month from Jan - June. ex. January, February,.. or all: \n').lower()
+            if month in months:
+                break
+            elif month == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(month))
+                continue  
 
 # Get user input for day of week (all, monday, tuesday, ... sunday)
-    while True:
-        day = input('\nWhich day of the week? ex. all, Monday, Tuesday, etc : \n').lower()
-        if day in days:
-            break
-        elif day == 'all':
-            break
-        else:
-            print('{} is not a valid input. please try again and check for extra spaces'.format(day))
-            continue    
+        while True:
+            day = input('\nWhich day of the week? ex. all, Monday, Tuesday, etc : \n').lower()
+            if day in days:
+                break
+            elif day == 'all':
+                break
+            else:
+                print('{} is not a valid input. please try again and check for extra spaces'.format(day))
+                continue    
 
-    print('-'*40)
-    return city, month, day
-    
+        print('-'*40)
+        return city, month, day
+except:
+    print('invalid input, please restart code')
+       
 
 def load_data(city, month, day):
     """
