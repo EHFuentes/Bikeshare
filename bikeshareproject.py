@@ -118,7 +118,6 @@ def time_stats(df):
     start_time = time.time()
 
 # Display the most common month
-    #if df['month'] != 'all':
     df['month'].to_string() != 'month'
     popular_month = df['month'].mode()[0]
     print('Most popular month:\n{}'.format(popular_month))
@@ -161,7 +160,7 @@ def trip_duration_stats(df):
     print('\nCalculating Trip Duration...\n')
     start_time = time.time()
 
-# Display total travel time (datetime.timedelta(seconds=666))
+# Display total travel time
     total_travel = pd.to_timedelta(df['Trip Duration'].sum(),unit= 's')
     print('Total travel time:\n{}'.format(total_travel))
 
